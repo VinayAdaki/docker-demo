@@ -27,70 +27,7 @@ public class UserController {
 	UserService userService;
 
 	@GetMapping
-	public String getUsers(@RequestParam(value = "page", defaultValue = "1") int page,
-			@RequestParam(value = "limit") int limit, @RequestParam(value = "sort", required = false) String sort) {
-		return "get user was called with page = " + page + " and limit = " + limit + " Sorted = " + sort;
-	}
-
-	@GetMapping(path = "/{userId}", 
-			produces = { 
-					MediaType.APPLICATION_JSON_VALUE, 
-					MediaType.APPLICATION_XML_VALUE 
-					})
-	public ResponseEntity<UserRest> getUser(@PathVariable String userId) {
-		if(users != null && users.containsKey(userId)){
-			return new ResponseEntity<UserRest>(users.get(userId), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<UserRest>(HttpStatus.NO_CONTENT);
-		}
-	}
-
-	@PostMapping(
-			consumes = {
-			MediaType.APPLICATION_JSON_VALUE,
-			MediaType.APPLICATION_XML_VALUE
-	},
-			produces = {
-			MediaType.APPLICATION_JSON_VALUE,
-			MediaType.APPLICATION_XML_VALUE
-	})
-	public ResponseEntity createUser(@Valid @RequestBody UserDetailsRequestModel userDetailsRequestModel) {
-		UserRest user = userService.createUser(userDetailsRequestModel);
-		return new ResponseEntity<UserRest>(user, HttpStatus.OK);
-	}
-
-	@PutMapping(path = "/{userId}",
-			consumes = {
-				MediaType.APPLICATION_JSON_VALUE,
-				MediaType.APPLICATION_XML_VALUE
-			},
-			produces = {
-				MediaType.APPLICATION_JSON_VALUE,
-				MediaType.APPLICATION_XML_VALUE
-			}
-	)
-	public ResponseEntity updateUser(@PathVariable String userId, @Valid @RequestBody UpdateUserDetailsRequestModel updateUserDetailsRequestModel) {
-		if(users.containsKey(userId)){
-			UserRest storedUserDetails = users.get(userId);
-			storedUserDetails.setFirstName(updateUserDetailsRequestModel.getFirstName());
-			storedUserDetails.setLastName(updateUserDetailsRequestModel.getLastName());
-
-			users.put(userId, storedUserDetails);
-
-			return new ResponseEntity<UserRest>(storedUserDetails, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<UserRest>(HttpStatus.BAD_REQUEST);
-		}
-	}
-
-	@DeleteMapping(path = "/{userId}")
-	public ResponseEntity deleteUser(@PathVariable String userId) {
-		if(true) throw new UserServiceException("Thrown by User Service Exception");
-		if(users.containsKey(userId)){
-			users.remove(userId);
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
-		} else {
-			return new ResponseEntity(HttpStatus.BAD_REQUEST);
-		}
+	public String getUsers() {
+		return "get user was called";
 	}
 }
